@@ -1,0 +1,18 @@
+<ActionBar title="Photo Zoom" class="action-bar">
+</ActionBar>
+<GridLayout>
+    <Pager [items]="items" class="pager">
+        <ng-template let-i="index" let-item="item">
+            <ScrollView>
+                <StackLayout>
+                    <Label text="From URL" class="h3" textWrap="true"></Label>
+                    <PhotoZoom [src]="item.url" placeholder="res://icon" width="100%" height="360"></PhotoZoom>
+                    <Label text="From resource" class="h3" textWrap="true"></Label>
+                    <PhotoZoom src="res://icon" width="100%" height="360"></PhotoZoom>
+                    <Label text="From assets" class="h3" textWrap="true"></Label>
+                    <PhotoZoom src="~/assets/images/inuyasha.jpg" width="100%" height="360"></PhotoZoom>
+                </StackLayout>
+            </ScrollView>
+        </ng-template>
+    </Pager>
+</GridLayout>
