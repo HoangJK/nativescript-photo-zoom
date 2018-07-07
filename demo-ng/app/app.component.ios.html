@@ -1,5 +1,11 @@
-<ActionBar title="Range Seek Bar" class="action-bar">
+<ActionBar title="Photo Zoom" class="action-bar">
 </ActionBar>
-<StackLayout>
-
-</StackLayout>
+<GridLayout>
+    <Pager [items]="items" class="pager" backgroundColor="black">
+        <ng-template let-i="index" let-item="item">
+            <FlexboxLayout justifyContent="center" alignItems="center" paddingTop="30" paddingBottom="30">
+                <PhotoZoom src="~/assets/images/inuyasha.jpg"></PhotoZoom>
+            </FlexboxLayout>
+        </ng-template>
+    </Pager>
+</GridLayout>
