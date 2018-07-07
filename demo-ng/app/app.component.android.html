@@ -4,7 +4,7 @@
     <Pager [items]="items" class="pager" backgroundColor="black">
         <ng-template let-i="index" let-item="item">
             <FlexboxLayout justifyContent="center" alignItems="center" paddingTop="30" paddingBottom="30">
-                <PhotoZoom src="~/assets/images/inuyasha.jpg" [width]="screenWidth" height="100%"></PhotoZoom>
+                <PhotoZoom [src]="item.image" stretch="aspectFit" width="100%" height="100%"></PhotoZoom>
             </FlexboxLayout>
         </ng-template>
     </Pager>

@@ -86,7 +86,23 @@ export class PhotoZoom extends PhotoZoomBase {
                 builder.setPlaceholderImage(placeholderImageDrawable);
             }
             if (this.stretch) {
-                builder.setActualImageScaleType(this.stretch);
+                switch (this.stretch) {
+                    case "aspectFill":
+                        builder.setActualImageScaleType("centerCrop");
+                        break;
+                    case "aspectFit":
+                        builder.setActualImageScaleType("centerInside");
+                        break;
+                    case "fill":
+                        builder.setActualImageScaleType("fitXY");
+                        break;
+                    default:
+                        builder.setActualImageScaleType("centerCrop");
+                        break;
+                }
+            }
+            else {
+                builder.setActualImageScaleType("centerInside");
             }
             let hierarchy = builder.build();
             this.nativeView.setHierarchy(hierarchy);
