@@ -2,13 +2,18 @@ import {
     PhotoZoomBase,
     srcProperty,
     placeholderProperty,
-    stretchProperty
+    stretchProperty,
+    zoomScaleProperty,
+    minZoomScaleProperty,
+    maxZoomScaleProperty
 } from "./photo-zoom.common";
 import * as application from "tns-core-modules/application";
 import * as types from "tns-core-modules/utils/types";
 import * as utils from "tns-core-modules/utils/utils";
 import * as fs from "tns-core-modules/file-system";
 import * as imageSource from "tns-core-modules/image-source";
+import { PercentLength } from "tns-core-modules/ui/styling/style-properties";
+
 
 export function initialize() {
     if (application.android) {
@@ -24,17 +29,40 @@ export class PhotoZoom extends PhotoZoomBase {
         return photoDraweeView;
     }
 
+    public measure(widthMeasureSpec: number, heightMeasureSpec: number): void {
+        console.log("widthMeasureSpec: ", widthMeasureSpec);
+        console.log("heightMeasureSpec: ", heightMeasureSpec);
+    }
+
     public initNativeView(): void {
         this.initImage();
         this.updateHierarchy();
     }
 
-    public [srcProperty.setNative](value: string) {
+    [srcProperty.setNative](value: string) {
         this.initImage();
     }
 
-    public [placeholderProperty.setNative](value: string) {
+    [placeholderProperty.setNative](value: string) {
         this.updateHierarchy();
+    }
+
+    [zoomScaleProperty.setNative](value: number) {
+        if (this.nativeView) {
+            this.nativeView.setScale(value);
+        }
+    }
+
+    [minZoomScaleProperty.setNative](value: number) {
+        if (this.nativeView) {
+            this.nativeView.setMinimumScale(value);
+        }
+    }
+
+    [maxZoomScaleProperty.setNative](value: number) {
+        if (this.nativeView) {
+            this.nativeView.setMaximumScale(value);
+        }
     }
 
     private initImage() {

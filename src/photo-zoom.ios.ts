@@ -47,12 +47,15 @@ export class PhotoZoom extends ScrollView {
         );
         const nativeView = this.nativeView;
         this._image = new Image();
+        this._image.stretch = "aspectFit";
         nativeView.delegate = this.delegate;
         nativeView.zoomScale = this.zoomScale;
         nativeView.minimumZoomScale = this.minZoom;
         nativeView.maximumZoomScale = this.maxZoom;
+        nativeView.autoresizingMask = 2;
+        nativeView.showsHorizontalScrollIndicator = false;
+        nativeView.showsVerticalScrollIndicator = false;
         this.content = this._image;
-        this.scrollBarIndicatorVisible = false;
     }
 
     public disposeNativeView() {
@@ -69,25 +72,25 @@ export class PhotoZoom extends ScrollView {
         }
     }
 
-    [stretchProperty.setNative](stretch: Stretch) {
-        this._image.stretch = stretch;
+    [stretchProperty.setNative](value: Stretch) {
+        this._image.stretch = value;
     }
 
-    [zoomScaleProperty.setNative](scale: number) {
+    [zoomScaleProperty.setNative](value: number) {
         if (this.nativeView) {
-            this.nativeView.zoomScale = scale;
+            this.nativeView.zoomScale = value;
         }
     }
 
-    [minZoomScaleProperty.setNative](scale: number) {
+    [minZoomScaleProperty.setNative](value: number) {
         if (this.nativeView) {
-            this.nativeView.minimumZoomScale = scale;
+            this.nativeView.minimumZoomScale = value;
         }
     }
 
-    [maxZoomScaleProperty.setNative](scale: number) {
+    [maxZoomScaleProperty.setNative](value: number) {
         if (this.nativeView) {
-            this.nativeView.maximumZoomScale = scale;
+            this.nativeView.maximumZoomScale = value;
         }
     }
 }

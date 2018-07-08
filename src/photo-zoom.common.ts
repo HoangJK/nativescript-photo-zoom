@@ -13,27 +13,18 @@ export class PhotoZoomBase extends View {
 export const srcProperty = new Property<PhotoZoomBase, string>({
     name: "src",
     defaultValue: undefined,
-    valueConverter: (v) => v,
-    valueChanged: (target, oldValue, newValue) => {
-    },
 });
 srcProperty.register(PhotoZoomBase);
 
 export const placeholderProperty = new Property<PhotoZoomBase, string>({
     name: "placeholder",
     defaultValue: undefined,
-    valueConverter: (v) => v,
-    valueChanged: (target, oldValue, newValue) => {
-    },
 });
 placeholderProperty.register(PhotoZoomBase);
 
 export const stretchProperty = new Property<PhotoZoomBase, string>({
     name: "stretch",
     defaultValue: undefined,
-    valueConverter: (v) => v,
-    valueChanged: (target, oldValue, newValue) => {
-    },
 });
 stretchProperty.register(PhotoZoomBase);
 
@@ -49,5 +40,5 @@ export const minZoomScaleProperty = new Property<PhotoZoomBase, number>({
 
 export const maxZoomScaleProperty = new Property<PhotoZoomBase, number>({
     name: 'maxZoom',
-    defaultValue: 4
+    defaultValue: 2
 });
