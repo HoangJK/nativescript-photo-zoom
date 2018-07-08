@@ -6,6 +6,16 @@ import { ScrollView } from 'tns-core-modules/ui/scroll-view';
 
 import { Property } from 'tns-core-modules/ui/core/view';
 
+
+export const srcProperty = new Property<PhotoZoom, string>({
+    name: 'src'
+});
+
+export const placeholderProperty = new Property<PhotoZoom, string>({
+    name: "placeholder",
+    defaultValue: undefined,
+});
+
 export const stretchProperty = new Property<PhotoZoom, Stretch>({
     name: 'stretch'
 });
@@ -25,10 +35,6 @@ export const maxZoomScaleProperty = new Property<PhotoZoom, number>({
     defaultValue: 4
 });
 
-export const srcProperty = new Property<PhotoZoom, string>({
-    name: 'src'
-});
-
 export class PhotoZoom extends ScrollView {
     _image: Image;
     nativeView: UIScrollView;
@@ -36,6 +42,7 @@ export class PhotoZoom extends ScrollView {
     private layoutHeight: number;
     private delegate: any;
     src: string;
+    placeholder: string;
     zoomScale: number;
     minZoom: number;
     maxZoom: number;
@@ -64,11 +71,20 @@ export class PhotoZoom extends ScrollView {
     }
 
     [srcProperty.setNative](src: string) {
-        if (typeof src === 'string' && src.startsWith('res://')) {
-            this._image.imageSource = imageSource.fromNativeSource(
-                UIImage.imageNamed(src.replace('res://', ''))
+        if(!src) {
+            console.error("Property 'src' is empty!");
+            return;
+        }
+        if(src.startsWith('http')) {
+            this._image.nativeView.sd_setImageWithURLPlaceholderImageCompleted(
+                src, 
+                this.placeholder ? imageSource.fromFileOrResource(this.placeholder).ios : null,
+                (image: UIImage, error: NSError, type: SDImageCacheType, url: NSURL) => {
+                    // Control success or error of loading image
+                }
             );
-        } else {
+        }
+        else {
             this._image.src = src;
         }
     }
@@ -97,6 +113,7 @@ export class PhotoZoom extends ScrollView {
 }
 
 srcProperty.register(PhotoZoom);
+placeholderProperty.register(PhotoZoom);
 stretchProperty.register(PhotoZoom);
 zoomScaleProperty.register(PhotoZoom);
 minZoomScaleProperty.register(PhotoZoom);
