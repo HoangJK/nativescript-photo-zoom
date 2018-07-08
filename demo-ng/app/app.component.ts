@@ -12,9 +12,6 @@ export class AppComponent {
     public screenHeight = screen.mainScreen.heightDIPs;
     public items = new ObservableArray([
         {
-            image: "https://www.alveo-slovakia.com/photo/147689/w3css-images-bordered-image.jpg",
-        },
-        {
             image: "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-400502.jpg"
         },
         {

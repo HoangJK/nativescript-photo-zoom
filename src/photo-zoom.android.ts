@@ -29,11 +29,6 @@ export class PhotoZoom extends PhotoZoomBase {
         return photoDraweeView;
     }
 
-    public measure(widthMeasureSpec: number, heightMeasureSpec: number): void {
-        console.log("widthMeasureSpec: ", widthMeasureSpec);
-        console.log("heightMeasureSpec: ", heightMeasureSpec);
-    }
-
     public initNativeView(): void {
         this.initImage();
         this.updateHierarchy();

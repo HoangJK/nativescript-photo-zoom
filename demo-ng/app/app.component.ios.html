@@ -2,10 +2,14 @@
 </ActionBar>
 <GridLayout rows="*, auto">
     <Pager [items]="items" class="pager" backgroundColor="black">
-        <ng-template let-i="index" let-item="item">
-            <FlexboxLayout justifyContent="center" alignItems="center" paddingTop="30" paddingBottom="30">
-                <PhotoZoom [src]="item.image" width="100%" height="100%"></PhotoZoom>
-            </FlexboxLayout>
+        <ng-template let-index="index" let-item="item">
+            <GridLayout rows="auto, *">
+                <StackLayout row="0">
+                    <Label textAlignment="center" horizontalAlignment="center" verticalAlignment="center" [text]="(index + 1) + ' / ' + items.length"
+                        fontSize="17" color="white" margin="10" textWrap="true"></Label>
+                </StackLayout>
+                <PhotoZoom row="1" [src]="item.image" width="100%" height="100%"></PhotoZoom>
+            </GridLayout>
         </ng-template>
     </Pager>
 </GridLayout>
