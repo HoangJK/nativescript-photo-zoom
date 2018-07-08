@@ -48,6 +48,7 @@ export class PhotoZoom extends ScrollView {
         const nativeView = this.nativeView;
         this._image = new Image();
         this._image.stretch = "aspectFit";
+        this._image.nativeView.clipsToBounds = true;
         nativeView.delegate = this.delegate;
         nativeView.zoomScale = this.zoomScale;
         nativeView.minimumZoomScale = this.minZoom;
