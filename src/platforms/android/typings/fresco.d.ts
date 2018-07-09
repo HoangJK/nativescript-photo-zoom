@@ -68,7 +68,7 @@ declare namespace com {
             namespace generic {
                 class GenericDraweeHierarchyBuilder {
                     constructor(context);
-                    setPlaceholderImage(drawable);
+                    setPlaceholderImage(drawable, scaleType?);
                     setFailureImage(drawable);
                     setActualImageScaleType(sclaleType);
                     build();

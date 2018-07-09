@@ -78,9 +78,13 @@ export class PhotoZoom extends ScrollView {
         }
         if (src.startsWith('http')) {
             let that = new WeakRef<PhotoZoom>(this);
+            let placeholder;
+            if (this.placeholder && imageSource.isFileOrResourcePath(this.placeholder) && imageSource.fromFileOrResource(this.placeholder)) {
+                placeholder = imageSource.fromFileOrResource(this.placeholder).ios;
+            }
             this._image.nativeView.sd_setImageWithURLPlaceholderImageCompleted(
                 src,
-                this.placeholder ? imageSource.fromFileOrResource(this.placeholder).ios : null,
+                placeholder ? placeholder : null,
                 (image: UIImage, error: NSError, type: SDImageCacheType, url: NSURL) => {
                     if (that && that.get()) {
                         let owner = that.get();

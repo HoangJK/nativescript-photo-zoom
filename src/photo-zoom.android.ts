@@ -172,6 +172,7 @@ export class PhotoZoom extends PhotoZoomBase {
             }
             let builder: GenericDraweeHierarchyBuilder = new GenericDraweeHierarchyBuilder();
             if (this.placeholder && placeholderImageDrawable) {
+
                 builder.setPlaceholderImage(placeholderImageDrawable);
             }
             if (this.stretch) {
@@ -186,12 +187,12 @@ export class PhotoZoom extends PhotoZoomBase {
                         builder.setActualImageScaleType("fitXY");
                         break;
                     default:
-                        builder.setActualImageScaleType("centerCrop");
+                        builder.setActualImageScaleType("fitCenter");
                         break;
                 }
             }
             else {
-                builder.setActualImageScaleType("centerInside");
+                builder.setActualImageScaleType("fitCenter");
             }
             let hierarchy = builder.build();
             this.nativeView.setHierarchy(hierarchy);
@@ -245,7 +246,7 @@ class GenericDraweeHierarchyBuilder {
             return null;
         }
 
-        this.nativeBuilder.setPlaceholderImage(drawable);
+        this.nativeBuilder.setPlaceholderImage(drawable, com.facebook.drawee.drawable.ScalingUtils.ScaleType.FIT_CENTER);
 
         return this;
     }

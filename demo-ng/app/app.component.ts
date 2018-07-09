@@ -24,16 +24,10 @@ export class AppComponent {
             image: "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-400502.jpg"
         },
         {
-            image: "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-400502.jpg"
-        },
-        {
             image: "https://images3.alphacoders.com/712/712915.jpg",
         },
         {
             image: "~/assets/images/inuyasha.jpg",
-        },
-        {
-            image: "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-400502.jpg"
         },
         {
             image: "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-400502.jpg"

@@ -42,10 +42,10 @@
         "email": "lexuanhoang2506@gmail.com"
     },
     "bugs": {
-        "url": "https://github.com/HoangJK/nativescript-range-seek-bar/issues"
+        "url": "https://github.com/HoangJK/nativescript-photo-zoom/issues"
     },
     "license": "Apache-2.0",
-    "homepage": "https://github.com/HoangJK/nativescript-range-seek-bar",
+    "homepage": "https://github.com/HoangJK/nativescript-photo-zoom",
     "readmeFilename": "README.md",
     "devDependencies": {
         "tns-core-modules": "4.1.0",
