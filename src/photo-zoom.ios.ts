@@ -4,7 +4,8 @@ import { layout } from 'tns-core-modules/ui/core/view';
 import { topmost } from 'tns-core-modules/ui/frame';
 import * as imageSource from 'tns-core-modules/image-source';
 import { ScrollView } from 'tns-core-modules/ui/scroll-view';
-
+import { GestureTypes } from 'tns-core-modules/ui/gestures';
+import { EventData } from "tns-core-modules/data/observable";
 import { Property } from 'tns-core-modules/ui/core/view';
 
 
@@ -57,6 +58,24 @@ export class PhotoZoom extends ScrollView {
         this._image = new Image();
         this._image.stretch = "aspectFit";
         this._image.nativeView.clipsToBounds = true;
+        let that = new WeakRef<PhotoZoom>(this);
+        this._image.on(GestureTypes.doubleTap, (event: any) => {
+            if (that && that.get()) {
+                let owner = that.get();
+                let tapPoint: CGPoint = event.ios.locationInView(owner.nativeView.subviews[0]);
+                if (owner.nativeView.zoomScale >= 1 && owner.nativeView.zoomScale < 1.5) {
+                    owner.nativeView.maximumZoomScale = 1.5;
+                    owner.nativeView.zoomToRectAnimated(CGRectMake(tapPoint.x, tapPoint.y, 0, 0), true);
+                }
+                else if (owner.nativeView.zoomScale >= 1.5 && owner.nativeView.zoomScale < 3) {
+                    owner.nativeView.maximumZoomScale = 3;
+                    owner.nativeView.zoomToRectAnimated(CGRectMake(tapPoint.x, tapPoint.y, 0, 0), true);
+                }
+                else {
+                    owner.nativeView.setZoomScaleAnimated(1, true)
+                }
+            }
+        });
         nativeView.delegate = this.delegate;
         nativeView.zoomScale = this.zoomScale;
         nativeView.minimumZoomScale = this.minZoom;
@@ -118,7 +137,6 @@ export class PhotoZoom extends ScrollView {
 
     [zoomScaleProperty.setNative](value: number) {
         if (this.nativeView) {
-            this.nativeView.zoomScale = value;
         }
     }
 
