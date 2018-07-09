@@ -2,6 +2,10 @@ import { View, Property, EventData } from "tns-core-modules/ui/core/view";
 
 
 export class PhotoZoomBase extends View {
+    public static finalImageSetEvent: string = "finalImageSet";
+    public static failureEvent: string = "failure";
+    public static submitEvent: string = "submit";
+
     public src: string;
     public placeholder: string;
     public stretch: string;

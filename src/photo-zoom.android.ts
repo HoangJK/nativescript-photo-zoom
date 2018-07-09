@@ -62,7 +62,7 @@ export class PhotoZoom extends PhotoZoomBase {
 
     private initImage() {
         if (this.nativeView) {
-            this.nativeView.setPhotoUri(null);
+            this.nativeView.setImageURI(null);
             if (this.src) {
                 let uri;
                 if (utils.isFileOrResourcePath(this.src)) {
@@ -93,9 +93,75 @@ export class PhotoZoom extends PhotoZoomBase {
                     console.log(`Error: 'src' not valid: ${this.src}`);
                     return;
                 }
-                this.nativeView.setPhotoUri(uri);
+                this.setPhotoUri(uri);
             }
         }
+    }
+
+    private setPhotoUri(uri: android.net.Uri) {
+        let that = new WeakRef<PhotoZoom>(this);
+        this.nativeView.setEnableDraweeMatrix(false);
+        let request: any = com.facebook.imagepipeline.request.ImageRequestBuilder.newBuilderWithSource(uri).build();
+        let listener = new com.facebook.drawee.controller.ControllerListener<com.facebook.imagepipeline.image.ImageInfo>({
+            onFinalImageSet: (id, imageInfo, animatable) => {
+                if (that && that.get()) {
+                    let owner = that.get();
+                    owner.nativeView.setEnableDraweeMatrix(true);
+                    if (imageInfo != null) {
+                        owner.nativeView.update(imageInfo.getWidth(), imageInfo.getHeight());
+                    }
+                    let args = {
+                        eventName: PhotoZoomBase.finalImageSetEvent,
+                        object: that.get()
+                    };
+                    owner.notify(args);
+                }
+            },
+            onIntermediateImageSet: (id, imageInfo) => {
+                if (that && that.get()) {
+                    let owner = that.get();
+                    owner.nativeView.setEnableDraweeMatrix(true);
+                    if (imageInfo != null) {
+                        owner.nativeView.update(imageInfo.getWidth(), imageInfo.getHeight());
+                    }
+                }
+            },
+            onFailure: (id, throwable) => {
+                if (that && that.get()) {
+                    let owner = that.get();
+                    owner.nativeView.setEnableDraweeMatrix(false);
+                    let args = {
+                        eventName: PhotoZoomBase.failureEvent,
+                        object: that.get()
+                    };
+                    owner.notify(args);
+                }
+            },
+            onIntermediateImageFailed: (id, throwable) => {
+                if (that && that.get()) {
+                    let owner = that.get();
+                    owner.nativeView.setEnableDraweeMatrix(false);
+                }
+            },
+            onRelease: (id) => {
+            },
+            onSubmit: (id, callerContext) => {
+                if (that && that.get()) {
+                    let owner = that.get();
+                    let args = {
+                        eventName: PhotoZoomBase.submitEvent,
+                        object: that.get()
+                    };
+                    owner.notify(args);
+                }
+            }
+        });
+        let builder = com.facebook.drawee.backends.pipeline.Fresco.newDraweeControllerBuilder();
+        builder.setControllerListener(listener);
+        builder.setOldController(this.nativeView.getController());
+        builder.setImageRequest(request);
+        let controller = builder.build();
+        this.nativeView.setController(controller);
     }
 
     private updateHierarchy() {
