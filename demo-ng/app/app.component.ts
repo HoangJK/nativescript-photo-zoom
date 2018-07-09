@@ -53,14 +53,17 @@ export class AppComponent {
 
     onSubmitImage(item) {
         item.loaded = false;
+        console.log("---onSubmitImage", item);
     }
 
     onFinalImageSet(item) {
         item.loaded = true;
+        console.log("---onFinalImageSet", item);
     }
 
     onFailure(item) {
         item.loaded = true;
+        console.log("---onFailure", item);
     }
 
 }

@@ -3,12 +3,9 @@
 <GridLayout rows="*, auto">
     <Pager [items]="items" class="pager" backgroundColor="black">
         <ng-template let-index="index" let-item="item">
-            <GridLayout rows="auto, *">
-                <StackLayout row="0">
-                    <Label textAlignment="center" horizontalAlignment="center" verticalAlignment="center" [text]="(index + 1) + ' / ' + items.length"
-                        fontSize="17" color="white" margin="10" textWrap="true"></Label>
-                </StackLayout>
-                <PhotoZoom row="1" [src]="item.image" width="100%" height="100%"></PhotoZoom>
+            <GridLayout>
+                <ActivityIndicator [busy]="!item.loaded" class="activity-indicator"></ActivityIndicator>
+                <PhotoZoom [src]="item.image" (finalImageSet)="onFinalImageSet(item)" (failure)="onFailure(item)" width="100%" height="100%"></PhotoZoom>
             </GridLayout>
         </ng-template>
     </Pager>

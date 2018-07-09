@@ -4,7 +4,7 @@
     <Pager [items]="items" class="pager" backgroundColor="black">
         <ng-template let-index="index" let-item="item">
             <GridLayout>
-                <ActivityIndicator width="50" height="50" [busy]="!item.loaded" class="activity-indicator"></ActivityIndicator>
+                <ActivityIndicator [busy]="!item.loaded" class="activity-indicator"></ActivityIndicator>
                 <PhotoZoom [src]="item.image" (submit)="onSubmitImage(item)" (finalImageSet)="onFinalImageSet(item)" (failure)="onFailure(item)"
                     width="100%" height="100%"></PhotoZoom>
             </GridLayout>

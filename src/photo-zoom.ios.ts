@@ -1,3 +1,4 @@
+import { PhotoZoomBase } from "./photo-zoom.common";
 import { Image, Stretch } from 'tns-core-modules/ui/image';
 import { layout } from 'tns-core-modules/ui/core/view';
 import { topmost } from 'tns-core-modules/ui/frame';
@@ -71,16 +72,34 @@ export class PhotoZoom extends ScrollView {
     }
 
     [srcProperty.setNative](src: string) {
-        if(!src) {
+        if (!src) {
             console.error("Property 'src' is empty!");
             return;
         }
-        if(src.startsWith('http')) {
+        if (src.startsWith('http')) {
+            let that = new WeakRef<PhotoZoom>(this);
             this._image.nativeView.sd_setImageWithURLPlaceholderImageCompleted(
-                src, 
+                src,
                 this.placeholder ? imageSource.fromFileOrResource(this.placeholder).ios : null,
                 (image: UIImage, error: NSError, type: SDImageCacheType, url: NSURL) => {
-                    // Control success or error of loading image
+                    if (that && that.get()) {
+                        let owner = that.get();
+                        if (error) {
+                            let args = {
+                                eventName: PhotoZoomBase.failureEvent,
+                                object: that.get()
+                            };
+                            owner.notify(args);
+
+                        }
+                        else {
+                            let args = {
+                                eventName: PhotoZoomBase.finalImageSetEvent,
+                                object: that.get()
+                            };
+                            owner.notify(args);
+                        }
+                    }
                 }
             );
         }

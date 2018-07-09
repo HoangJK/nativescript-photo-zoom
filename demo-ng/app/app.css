@@ -1,7 +1,5 @@
-.range-seek-bar {
-    bar-color: #8990C4;
-    bar-highlight-color: #2434AD;
-    thumb-color: #1A246D;
-    bar-height: 10;
-    corner-radius: 30;
+.activity-indicator {
+    color: white;
+    width: 50;
+    height: 50;
 }
