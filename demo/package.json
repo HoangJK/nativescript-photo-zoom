@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "nativescript-range-seek-bar": "../src",
+    "nativescript-photo-zoom": "../src",
     "nativescript-theme-core": "^1.0.4",
     "tns-core-modules": "^4.1.0"
   },

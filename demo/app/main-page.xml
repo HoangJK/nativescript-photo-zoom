@@ -1,9 +1,9 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page"
-  xmlns:rsb="nativescript-range-seek-bar">
+  xmlns:photoZoom="nativescript-photo-zoom">
   <Page.actionBar>
-      <ActionBar title="Range Seek Bar"></ActionBar>
+      <ActionBar title="Photo Zoom"></ActionBar>
   </Page.actionBar>
-  <StackLayout>
-      <rsb:RangeSeekBar class="range-seek-bar"/>
-  </StackLayout>
+  <GridLayout >
+      <photoZoom:PhotoZoom src="https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-400502.jpg"/>
+  </GridLayout>
 </Page>
