@@ -4,8 +4,6 @@ import {
     placeholderProperty,
     stretchProperty,
     zoomScaleProperty,
-    minZoomScaleProperty,
-    maxZoomScaleProperty
 } from "./photo-zoom.common";
 import * as application from "tns-core-modules/application";
 import * as types from "tns-core-modules/utils/types";
@@ -26,6 +24,20 @@ export class PhotoZoom extends PhotoZoomBase {
 
     public createNativeView() {
         const photoDraweeView = new me.relex.photodraweeview.PhotoDraweeView(this._context);
+        let that = new WeakRef<PhotoZoom>(this);
+        photoDraweeView.setOnScaleChangeListener(new me.relex.photodraweeview.OnScaleChangeListener({
+            onScaleChange: (scaleFactor: number, focusX: number, focusY: number) => {
+                if (that && that.get()) {
+                    let owner = that.get();
+                    owner.zoomScale = photoDraweeView.getScale();
+                    let args = {
+                        eventName: PhotoZoomBase.scaleChangedEvent,
+                        object: owner
+                    };
+                    owner.notify(args);
+                }
+            }
+        }));
         return photoDraweeView;
     }
 
@@ -45,18 +57,6 @@ export class PhotoZoom extends PhotoZoomBase {
     [zoomScaleProperty.setNative](value: number) {
         if (this.nativeView) {
             this.nativeView.setScale(value);
-        }
-    }
-
-    [minZoomScaleProperty.setNative](value: number) {
-        if (this.nativeView) {
-            this.nativeView.setMinimumScale(value);
-        }
-    }
-
-    [maxZoomScaleProperty.setNative](value: number) {
-        if (this.nativeView) {
-            this.nativeView.setMaximumScale(value);
         }
     }
 

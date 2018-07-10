@@ -5,7 +5,8 @@
         <ng-template let-index="index" let-item="item">
             <GridLayout>
                 <ActivityIndicator [busy]="!item.loaded" class="activity-indicator"></ActivityIndicator>
-                <PhotoZoom [src]="item.image" placeholder="res://icon" (finalImageSet)="onFinalImageSet(item)" (failure)="onFailure(item)"></PhotoZoom>
+                <PhotoZoom [src]="item.image" placeholder="res://icon" (scaleChanged)="onScaleChanged($event)" (finalImageSet)="onFinalImageSet(item)"
+                    (failure)="onFailure(item)"></PhotoZoom>
             </GridLayout>
         </ng-template>
     </Pager>

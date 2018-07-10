@@ -60,4 +60,8 @@ export class AppComponent {
         console.log("---onFailure", item);
     }
 
+    onScaleChanged(event) {
+        console.log("---onScaleChanged: ", event.object.zoomScale);
+    }
+
 }

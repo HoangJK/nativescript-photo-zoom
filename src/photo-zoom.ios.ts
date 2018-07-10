@@ -27,16 +27,6 @@ export const zoomScaleProperty = new Property<PhotoZoom, number>({
     defaultValue: 1
 });
 
-export const minZoomScaleProperty = new Property<PhotoZoom, number>({
-    name: 'minZoom',
-    defaultValue: 1
-});
-
-export const maxZoomScaleProperty = new Property<PhotoZoom, number>({
-    name: 'maxZoom',
-    defaultValue: 4
-});
-
 export class PhotoZoom extends ScrollView {
     _image: Image;
     nativeView: UIScrollView;
@@ -45,10 +35,8 @@ export class PhotoZoom extends ScrollView {
     private delegate: any;
     src: string;
     placeholder: string;
-    zoomScale: number;
-    minZoom: number;
-    maxZoom: number;
     stretch: string;
+    zoomScale: number;
     constructor() {
         super();
         this.delegate = PhotoZoomDelegateImpl.initWithOwner(
@@ -78,8 +66,7 @@ export class PhotoZoom extends ScrollView {
         });
         nativeView.delegate = this.delegate;
         nativeView.zoomScale = this.zoomScale;
-        nativeView.minimumZoomScale = this.minZoom;
-        nativeView.maximumZoomScale = this.maxZoom;
+        nativeView.maximumZoomScale = 3;
         nativeView.autoresizingMask = 2;
         nativeView.showsHorizontalScrollIndicator = false;
         nativeView.showsVerticalScrollIndicator = false;
@@ -137,18 +124,7 @@ export class PhotoZoom extends ScrollView {
 
     [zoomScaleProperty.setNative](value: number) {
         if (this.nativeView) {
-        }
-    }
-
-    [minZoomScaleProperty.setNative](value: number) {
-        if (this.nativeView) {
-            this.nativeView.minimumZoomScale = value;
-        }
-    }
-
-    [maxZoomScaleProperty.setNative](value: number) {
-        if (this.nativeView) {
-            this.nativeView.maximumZoomScale = value;
+            this.nativeView.setZoomScaleAnimated(value, true);
         }
     }
 }
@@ -157,8 +133,6 @@ srcProperty.register(PhotoZoom);
 placeholderProperty.register(PhotoZoom);
 stretchProperty.register(PhotoZoom);
 zoomScaleProperty.register(PhotoZoom);
-minZoomScaleProperty.register(PhotoZoom);
-maxZoomScaleProperty.register(PhotoZoom);
 
 @ObjCClass(UIScrollViewDelegate)
 export class PhotoZoomDelegateImpl extends NSObject implements UIScrollViewDelegate {
@@ -173,5 +147,15 @@ export class PhotoZoomDelegateImpl extends NSObject implements UIScrollViewDeleg
     viewForZoomingInScrollView(scrollView: UIScrollView) {
         const owner = this.owner.get();
         return owner._image.nativeView;
+    }
+
+    scrollViewDidZoom?(scrollView: UIScrollView): void {
+        const owner = this.owner.get();
+        owner.zoomScale = scrollView.zoomScale;
+        let args = {
+            eventName: PhotoZoomBase.scaleChangedEvent,
+            object: owner
+        };
+        owner.notify(args);
     }
 }
