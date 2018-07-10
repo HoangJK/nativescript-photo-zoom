@@ -35,7 +35,7 @@ Get or set zoom scale of photo.
 
 - Initialize Fresco
 ```typescript
-<!-- app.module.ts -->
+// app.module.ts
 import application = require("application");
 import photoZoom = require("nativescript-photo-zoom");
 
@@ -66,7 +66,7 @@ import { NativeScriptUIPhotoZoomModule } from "nativescript-photo-zoom/angular";
 </GridLayout>
 ```
 ```ts
-// app.componnet.ts
+// app.component.ts
 import { Component } from "@angular/core";
 
 @Component({
