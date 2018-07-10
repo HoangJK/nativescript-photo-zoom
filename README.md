@@ -32,6 +32,19 @@ Describes how image is resized to fill its allocated space. This property can be
 * **zoomScale** - *Number*  
 Get or set zoom scale of photo.
 ## Usage in Angular
+
+- Initialize Fresco
+```typescript
+<!-- app.module.ts -->
+import application = require("application");
+import photoZoom = require("nativescript-photo-zoom");
+
+if (application.android) {
+    application.on("launch", () => {
+        photoZoom.initialize();
+    });
+}
+```
 - Import `NativeScriptUIPhotoZoomModule` in `NgModule`:
 ```typescript
 import { NativeScriptUIPhotoZoomModule } from "nativescript-photo-zoom/angular";
