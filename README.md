@@ -16,6 +16,8 @@ This event is fired after the final image has been set.
 This event is fired after the fetch of the final image failed.
 * **submit**  
 This event is fired before the image request is submitted (only Android).
+* **scaleChanged**  
+This event is fired when the image photo is scaling.
 ### Instance Properties
 * **src** - *String*  
 String value used for the image URI. You can use this property to set the image to be loaded from remote location (http, https), from the resources and local files of your {N} application.
@@ -27,6 +29,8 @@ Describes how image is resized to fill its allocated space. This property can be
 *aspectFit*, 
 *fill* or 
 *none*
+* **zoomScale** - *Number*  
+Get or set zoom scale of photo.
 ## Usage in Angular
 - Import `NativeScriptUIPhotoZoomModule` in `NgModule`:
 ```typescript
@@ -45,7 +49,7 @@ import { NativeScriptUIPhotoZoomModule } from "nativescript-photo-zoom/angular";
 ```html
 <!-- app.component.html -->
 <GridLayout>
-    <PhotoZoom [src]="photoUrl" placeholder="res://placeholder" (finalImageSet)="onFinalImageSet($event)" (failure)="onFailure($event)"></PhotoZoom>
+    <PhotoZoom [src]="photoUrl" placeholder="res://placeholder" (finalImageSet)="onFinalImageSet($event)" (failure)="onFailure($event)"  (scaleChanged)="onScaleChanged($event)"></PhotoZoom>
 </GridLayout>
 ```
 ```ts
@@ -69,6 +73,10 @@ export class AppComponent {
 
     onFailure(event) {
         console.log("onFailure: ", event);
+    }
+
+    onScaleChanged(event) {
+        console.log("onScaleChanged: ", event.object.zoomScale);
     }
 }
 
